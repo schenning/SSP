@@ -1,19 +1,11 @@
 % HW , Henning Schei
 %clear all;
 %close all; 
-
-% fileID = fopen('hw_host_ip_list.txt','r');
-% fSpec = '%s';
-% cmp =fscanf(fileID, fSpec);
-% fclose(fileID);
-
-data = load('hw_host_ip_list.txt');
-
-
-
- 
-
-
-%[res] = pingstats(x(2), 100, 'v'); 
+fileID = fopen('hw_host_ip_list.txt','r');
+fSpec  = '%s';
+data   = textscan(fileID, fSpec);
+fclose(fileID);
+[res] = pingstats(data{1}{1}, 2, ''); 
+res = res';
 
 
