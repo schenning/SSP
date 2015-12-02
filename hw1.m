@@ -10,10 +10,12 @@ fileID = fopen('hw_host_ip_list.txt','r');
 fSpec  = '%s';
 data   = textscan(fileID, fSpec);
 fclose(fileID);
-res=zeros(100,3);
-res(1:100,1) = pingstats('mercury.iet.ntnu.no' , 100, ''); % Norwegian Univ. of Science and Technology
-res(1:100,2) = pingstats('atalante.stanford.edu', 100,''); % Standford University
-res(1:100,3) = pingstats('mx.vvsu.ru',100,''); % Vladivostok State University ofEconimics and Service 
+res=zeros(1000,4);
+res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology
+res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University
+res(1:1000,3) = pingstats('mx.vvsu.ru',1000,''); % Vladivostok State University ofEconimics and Service 
+res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville
+
 %res(1:100,3) = pingstats('archlinux.uib.no',100,'');
 % 217.74.123.50 % ISP = Vladivostok SU
 % 197.214.128.4 Airtel Congo.
