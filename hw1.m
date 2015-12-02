@@ -1,3 +1,4 @@
+
 % HW , Henning Schei
 %clear all;
 %close all; 
@@ -10,11 +11,14 @@ fSpec  = '%s';
 data   = textscan(fileID, fSpec);
 fclose(fileID);
 res=zeros(100,3);
-res(1:100,1) = pingstats('mercury.iet.ntnu.no' , 100, ''); 
-res(1:100,2) = pingstats('venus.iet.ntnu.no', 100,'');
-%res(1:100,3) = pingstats('folk.ntnu.no/henninsc',100,'');
-res(1:100,3) = pingstats('archlinux.uib.no',100,'');
-
+res(1:100,1) = pingstats('mercury.iet.ntnu.no' , 100, ''); % Norwegian Univ. of Science and Technology
+res(1:100,2) = pingstats('atalante.stanford.edu', 100,''); % Standford University
+res(1:100,3) = pingstats('mx.vvsu.ru',100,''); % Vladivostok State University ofEconimics and Service 
+%res(1:100,3) = pingstats('archlinux.uib.no',100,'');
+% 217.74.123.50 % ISP = Vladivostok SU
+% 197.214.128.4 Airtel Congo.
+% 197.255.176.1 Brazzaville
+% 197.220.64.1 , Mogadishu
 %%
 
 % Plotting histograms
@@ -26,12 +30,12 @@ figure;
 hist(res(:,2),50);
 xlabel 'msec'
 ylabel '#ping'
-title 'venus.iet.ntnu.no'
+title 'atlante.standford.edu'
 figure;
 hist(res(:,3),50);
 xlabel 'msec'
 ylabel '#ping'
-title 'archlinux.uib.no'
+title 'mx.vvsu.ru'
 
 %% Problem i) Maximum Likelihood estimation 
 
