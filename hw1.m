@@ -5,7 +5,33 @@
 
 %Collecting data from 3 different places
 
+choise = 0;
 
+if (choise)
+    fileID = fopen('hw_host_ip_list.txt','r');
+    fSpec  = '%s';
+    data   = textscan(fileID, fSpec);
+    fclose(fileID);
+    res=zeros(1000,4);
+    res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology #1 in res
+    res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University                      #2 in res
+    res(1:1000,3) = pingstats('mx.vvsu.ru',1000,''); % Vladivostok State University ofEconimics and Service  #3 in res
+    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville                                         #didn't work
+
+    %res(1:100,3) = pingstats('archlinux.uib.no',100,'');
+    % 217.74.123.50 % ISP = Vladivostok SU
+    % 197.214.128.4 Airtel Congo. % sykt treg
+    % 197.255.176.1 Brazzaville   
+    % 197.220.64.1 , Mogadishu    % relativ rask
+else
+    % unpack from .mat file pingmania.mat
+    tmp  = load('pingmania.mat');
+    res  = tmp.res(:,:); % fix 4.colunm 
+end
+
+
+
+<<<<<<< HEAD
 fileID = fopen('hw_host_ip_list.txt','r');
 fSpec  = '%s';
 data   = textscan(fileID, fSpec);
@@ -25,23 +51,27 @@ congo(1:1000)=pingstats('197.214.128.2', 1000,'');
 % 197.214.128.4 Airtel Congo.
 % 197.255.176.1 Brazzaville
 % 197.220.64.1 , Mogadishu
+=======
+>>>>>>> d7205de415656af0cdef4ddfbe09a59fb1fda961
 %%
 
 % Plotting histograms
-hist(res(:,1), 50);
+hist(res(:,1), 500);
 xlabel 'msec'
 ylabel '#ping'
-title 'mercury.iet.ntnu.no'
+title 'mercury.iet.ntnu.no - Located in Trondheim, Norway';
 figure;
-hist(res(:,2),50);
+hist(res(:,2),500);
 xlabel 'msec'
 ylabel '#ping'
-title 'atlante.standford.edu'
+title 'atlante.standford.edu - Located in California';
 figure;
-hist(res(:,3),50);
+hist(res(:,3),500);
 xlabel 'msec'
 ylabel '#ping'
-title 'mx.vvsu.ru'
+title 'mx.vvsu.ru - Located in Vladivostok, Russia.';
+
+
 
 %% Problem i) Maximum Likelihood estimation 
 
