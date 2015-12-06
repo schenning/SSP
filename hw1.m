@@ -61,7 +61,7 @@ lambda_exp = length(data)/tmp;
 
 
 % Shifted Rayleigh
-% To be continued
+% 
 
 
 %% Problem iv: Superimpose graphs of histograms and marginal denseties
@@ -84,7 +84,6 @@ for i=1:1000
         f_exp(i) = lambda_exp .* exp(-lambda_exp.*(i-alpha_exp));
     end
 end
-
 alpha_SR = min(data);
 f_SR = zeros(1,1000);
 ro_SR=100;
@@ -136,6 +135,30 @@ subplot(4,2,8)
 plot(f_SR)
 xlim([0 max(data)+100])
 title 'Shifted Reyleigh distribution'
+
+%% Problem v) 
+%
+% Finding the distribution that maximizes the likelihood: 
+
+% Gaussian distribution
+p_G = mle (data);
+% Rayleigh distribution
+% p_R = mle (data, 'pdf', f_R, 'start',0);
+% % Erlang distributions
+% p_E1 = mle(data,'pdf',f_E1, 'start', 0);
+% p_E2 = mle(data,'pdf',f_E2, 'start', 0);
+% p_E3 = mle(data,'pdf',f_E3, 'start', 0);
+% % Shifted exponential distribution
+% p_exp = mle(data,'pdf',f_exp,'start',min(data));
+% % Shifted Rayleigh distribution
+% p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
+plot(p_G)
+disp(max(p_G))
+
+
+
+
+
 
 
 
