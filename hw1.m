@@ -1,5 +1,5 @@
 
-% HW , Henning Schei
+% HW , schenning
 %clear all;
 %close all; 
 
@@ -154,6 +154,8 @@ p_G = mle (data);
 % p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
 plot(p_G)
 disp(max(p_G))
+% Is the mean of a shifted dist the same as the unshifted mean + shift????
+
 
 
 
