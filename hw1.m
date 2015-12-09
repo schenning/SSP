@@ -30,6 +30,8 @@ end
 
 
 
+
+    
 data = res(1:1000,1);
 %% Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions 
 
@@ -96,7 +98,7 @@ for i =1:1000
 end
 
 
-
+figure; 
 % Plotting histograms and margnial densisies
 
 subplot(4,2,1)
@@ -154,7 +156,6 @@ p_G = mle (data);
 % p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
 plot(p_G)
 disp(max(p_G))
-
 
 
 
