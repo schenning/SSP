@@ -1,14 +1,11 @@
 
-% HW , Henning Schei
-%clear all;
-%close all; 
+% HW, Statistical Signal Processing,
+% Written by Henning Schei 
 
 %Collecting data from 3 different places
-
 choise = 0;
-
+close all;
 if (choise)
-  
     res=zeros(1000,4);
     res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology #1 in res
     res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University                      #2 in res
@@ -21,17 +18,28 @@ if (choise)
     % 197.255.176.1 Brazzaville   
     % 197.220.64.1 , Mogadishu    % relativ rask
 else
-    % unpack from .mat file pingmania.mat
-    tmp  = load('pingmania.mat');
-    res  = tmp.res(:,:); % fix 4.colunm 
+    
+    % Check if data file exists
+    if exist('pingmania.mat') == 2
+        % unpack from .mat file pingmania.mat
+        tmp  = load('pingmania.mat');
+        res  = tmp.res(:,:); % fix 4.colunm
+    else
+        fprintf('You need to add til file pingmania.mat to the current directory\n');
+        return
+    end
+    
 end
 
+<<<<<<< HEAD
 
 
 
 
 
     
+=======
+>>>>>>> ee7356cf0b2954d44900b1f7453d57d552ae8945
 data = res(1:1000,1);
 %% Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions 
 
@@ -43,6 +51,7 @@ for i = 1:length(data)
     tmp = tmp + power(data(i) - mu_G,2);
 end
 ro_G = tmp/length(data); % Divide by n+1?
+
 
 % Rayleigh
 ro_R = power(2*length(data),-1) * sum (data.^2);
@@ -86,14 +95,23 @@ for i=1:1000
         f_exp(i) = lambda_exp .* exp(-lambda_exp.*(i-alpha_exp));
     end
 end
-alpha_SR = min(data);
+alpha_SR = min(data)+0.01;
 f_SR = zeros(1,1000);
-ro_SR=100;
+tmp1=0;
+tmp2=0;
+
+for j=1:1000
+    tmp1 = tmp1 + data(j)-alpha_SR;
+    tmp2 = tmp2 + 1/(data(j)-alpha_SR);
+end
+
+ro_SR=tmp1/tmp2;
+
 for i =1:1000
     if i<alpha_SR
         f_SR(i)=0;
     elseif i>=alpha_SR
-        f_SR(i)= ((i-alpha_SR)./ro_SR)*exp(((i-alpha_SR).^2)./(2*ro_SR)); 
+        f_SR(i)= ((i-alpha_SR)./ro_SR)*exp(-((i-alpha_SR).^2)./(2*ro_SR)); 
     end
 end
 
@@ -142,6 +160,18 @@ title 'Shifted Reyleigh distribution'
 %
 % Finding the distribution that maximizes the likelihood: 
 
+
+
+
+
+sw = mean(data)-1:000.1:mean(data)+1;
+for k=1:length(sw)
+    L(k) = exp(-(sum(data-sw(k)).^2)./2);
+    k=k+1;
+end
+plot(sw,L)
+
+
 % Gaussian distribution
 p_G = mle (data);
 % Rayleigh distribution
@@ -154,8 +184,9 @@ p_G = mle (data);
 % p_exp = mle(data,'pdf',f_exp,'start',min(data));
 % % Shifted Rayleigh distribution
 % p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
-plot(p_G)
-disp(max(p_G))
+
+% Is the mean of a shifted dist the same as the unshifted mean + shift????
+
 
 
 
@@ -176,7 +207,6 @@ disp(max(p_G))
 % ylabel '#ping'
 % title 'mx.vvsu.ru - Located in Vladivostok, Russia.';
 % close all
-
 
 
 
