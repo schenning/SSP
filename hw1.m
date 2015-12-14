@@ -31,6 +31,7 @@ else
     
 end
 
+
 data = res(1:1000,1);
 %% Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions 
 
@@ -41,8 +42,7 @@ tmp=0;
 for i = 1:length(data)
     tmp = tmp + power(data(i) - mu_G,2);
 end
-ro_G = tmp/length(data); % Divide by n+1?
-
+ro_G = tmp/length(data); 
 
 % Rayleigh
 ro_R = power(2*length(data),-1) * sum (data.^2);
@@ -107,7 +107,7 @@ for i =1:1000
 end
 
 
-
+figure; 
 % Plotting histograms and margnial densisies
 
 subplot(4,2,1)
@@ -153,7 +153,7 @@ title 'Shifted Reyleigh distribution'
 
 
 
-
+figure;
 
 sw = mean(data)-1:000.1:mean(data)+1;
 for k=1:length(sw)
@@ -177,7 +177,6 @@ p_G = mle (data);
 % p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
 
 % Is the mean of a shifted dist the same as the unshifted mean + shift????
-
 
 
 
