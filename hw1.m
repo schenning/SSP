@@ -1,6 +1,10 @@
 
 % HW, Statistical Signal Processing,
 % Written by Henning Schei 
+% Source code avalibe at https://github.com/schenning/SSP/blob/master/hw1.m
+
+
+
 
 %Collecting data from 3 different places
 choise = 0;
@@ -17,7 +21,7 @@ if (choise)
 else
     
     % Check if data file exists
-    if exist('pingmania.mat') == 2
+    if exist('pingmania.mat','file') == 2
         % unpack from .mat file pingmania.mat
         tmp  = load('pingmania.mat');
         res  = tmp.res(:,:); % fix 4.colunm
@@ -189,7 +193,8 @@ loglikelihoods(1:7) = sum(log(dists(:,1:7)));
 
 
 % Output shows that the shifted exponential distribution is the one that
-% maximizes the likelihood function 
+% maximizes the likelihood function, and by obersvation this is also the pdf
+% that visually fits best. 
 
 
 

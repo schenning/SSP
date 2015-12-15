@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>hw1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-09"><meta name="DC.source" content="hw1.m"><style type="text/css">
+      --><title>hw1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-15"><meta name="DC.source" content="hw1.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions</a></li><li><a href="#3">Problem iv: Superimpose graphs of histograms and marginal denseties</a></li><li><a href="#4">Problem v)</a></li></ul></div><pre class="codeinput"><span class="comment">% HW, Statistical Signal Processing,</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Problem iii) Calculating the parameters for each of the distributions</a></li><li><a href="#3">Problem iv: Superimpose graphs of histograms and marginal denseties</a></li><li><a href="#4">Problem v)</a></li></ul></div><pre class="codeinput"><span class="comment">% HW, Statistical Signal Processing,</span>
 <span class="comment">% Written by Henning Schei</span>
 
 <span class="comment">%Collecting data from 3 different places</span>
@@ -76,14 +76,11 @@ close <span class="string">all</span>;
     res=zeros(1000,4);
     res(1:1000,1) = pingstats(<span class="string">'mercury.iet.ntnu.no'</span> , 1000, <span class="string">''</span>); <span class="comment">% Norwegian Univ. of Science and Technology #1 in res</span>
     res(1:1000,2) = pingstats(<span class="string">'atalante.stanford.edu'</span>, 1000,<span class="string">''</span>); <span class="comment">% Standford University                      #2 in res</span>
-    res(1:1000,3) = pingstats(<span class="string">'mx.vvsu.ru'</span>,1000,<span class="string">''</span>); <span class="comment">% Vladivostok State University of Econimics and Service  #3 in res</span>
-    res(1:1000,4) = pingstats(<span class="string">'197.255.176.1'</span>,1000,<span class="string">''</span>); <span class="comment">%Brazzaville                                         #didn't work</span>
+    res(1:1000,3) = pingstats(<span class="string">'mx.vvsu.ru'</span>,1000,<span class="string">''</span>);<span class="comment">% Vladivostok State University of Econimics and Service  #3 in res</span>
+    res(1:1000,4) = pingstats(<span class="string">'197.255.176.1'</span>,1000,<span class="string">''</span>); <span class="comment">%Brazzaville, Congo</span>
 
-    <span class="comment">%res(1:100,3) = pingstats('archlinux.uib.no',100,'');</span>
-    <span class="comment">% 217.74.123.50 % ISP = Vladivostok SU</span>
-    <span class="comment">% 197.214.128.4 Airtel Congo. % sykt treg</span>
-    <span class="comment">% 197.255.176.1 Brazzaville</span>
-    <span class="comment">% 197.220.64.1 , Mogadishu    % relativ rask</span>
+
+
 <span class="keyword">else</span>
 
     <span class="comment">% Check if data file exists</span>
@@ -99,8 +96,8 @@ close <span class="string">all</span>;
 <span class="keyword">end</span>
 
 
-data = res(1:1000,1);
-</pre><h2>Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions<a name="2"></a></h2><pre class="codeinput"><span class="comment">% Gaussian distribution</span>
+data = res(1:1000,1); <span class="comment">% Using the data from Norwegian Univ. of Science and Technology</span>
+</pre><h2>Problem iii) Calculating the parameters for each of the distributions<a name="2"></a></h2><pre class="codeinput"><span class="comment">% Gaussian distribution</span>
 
 mu_G = sum(data)/length(data);
 tmp=0;
@@ -128,7 +125,6 @@ lambda_exp = length(data)/tmp;
 
 
 <span class="comment">% Shifted Rayleigh</span>
-<span class="comment">%</span>
 </pre><h2>Problem iv: Superimpose graphs of histograms and marginal denseties<a name="3"></a></h2><pre class="codeinput"><span class="comment">% pdf's:</span>
 
 f_G = (1./sqrt(2.*pi.*ro_G)) .* exp(-power( (1:1000)-mu_G,2)./(2.*ro_G));
@@ -207,77 +203,42 @@ subplot(4,2,8)
 plot(f_SR)
 xlim([0 max(data)+100])
 title <span class="string">'Shifted Reyleigh distribution'</span>
-</pre><img vspace="5" hspace="5" src="hw1_01.png" alt=""> <h2>Problem v)<a name="4"></a></h2><p>Finding the distribution that maximizes the likelihood:</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="hw1_01.png" alt=""> <h2>Problem v)<a name="4"></a></h2><p>Finding the distribution that maximizes the likelihood: Putting in the measured data in the pdf's</p><pre class="codeinput">f_GI = (1./sqrt(2.*pi.*ro_G)) .* exp(-power( (data)-mu_G,2)./(2.*ro_G));
+f_RI = ((data)./ro_R).*exp (-(power((data),2))./(2.*ro_R ));
+f_E1I = (power(lambda_E(1),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(1).*(data));
+M = 2;
+f_E2I = (power(lambda_E(2),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(2).*(data));
+M = 3;
+f_E3I = (power(lambda_E(3),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(3).*(data));
 
-sw = mean(data)-1:000.1:mean(data)+1;
-<span class="keyword">for</span> k=1:length(sw)
-    L(k) = exp(-(sum(data-sw(k)).^2)./2);
-    k=k+1;
+
+f_expI = lambda_exp .* exp(-lambda_exp.*(data-alpha_exp));
+alpha_SR = min(data)+0.01; <span class="comment">% matlab does not like to divide by zero</span>
+
+tmp1=0;
+tmp2=0;
+<span class="comment">% Finding ro_SR</span>
+<span class="keyword">for</span> j=1:1000
+    tmp1 = tmp1 + data(j)-alpha_SR;
+    tmp2 = tmp2 + 1/(data(j)-alpha_SR);
 <span class="keyword">end</span>
-plot(sw,L)
+ro_SR=tmp1/tmp2;
+data_SR = zeros(1,length(data));
+<span class="keyword">for</span> i=1:length(data)
+    data_SR(i) = data(i)-alpha_SR;
+<span class="keyword">end</span>
+
+f_SRI = ((data_SR)./ro_SR).*exp(-((data_SR).^2)./(2.*ro_SR));
+f_SRI = f_SRI';
+dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI f_SRI];
+loglikelihoods(1:7) = sum(log(dists(:,1:7)));
+
+[lhat,idx] = max(loglikelihoods);
 
 
-<span class="comment">% Gaussian distribution</span>
-p_G = mle (data);
-<span class="comment">% Rayleigh distribution</span>
-<span class="comment">% p_R = mle (data, 'pdf', f_R, 'start',0);</span>
-<span class="comment">% % Erlang distributions</span>
-<span class="comment">% p_E1 = mle(data,'pdf',f_E1, 'start', 0);</span>
-<span class="comment">% p_E2 = mle(data,'pdf',f_E2, 'start', 0);</span>
-<span class="comment">% p_E3 = mle(data,'pdf',f_E3, 'start', 0);</span>
-<span class="comment">% % Shifted exponential distribution</span>
-<span class="comment">% p_exp = mle(data,'pdf',f_exp,'start',min(data));</span>
-<span class="comment">% % Shifted Rayleigh distribution</span>
-<span class="comment">% p_SR = mle(data,'pdf', f_SR,'start',min(data));</span>
-
-<span class="comment">% Is the mean of a shifted dist the same as the unshifted mean + shift????</span>
-
-
-
-
-
-
-
-
-<span class="comment">%</span>
-<span class="comment">%</span>
-<span class="comment">% figure;</span>
-<span class="comment">% hist(res(:,2),500);</span>
-<span class="comment">% xlabel 'msec'</span>
-<span class="comment">% ylabel '#ping'</span>
-<span class="comment">% title 'atlante.standford.edu - Located in California';</span>
-<span class="comment">% figure;</span>
-<span class="comment">% hist(res(:,3),500);</span>
-<span class="comment">% xlabel 'msec'</span>
-<span class="comment">% ylabel '#ping'</span>
-<span class="comment">% title 'mx.vvsu.ru - Located in Vladivostok, Russia.';</span>
-<span class="comment">% close all</span>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="comment">%res = res';</span>
-</pre><img vspace="5" hspace="5" src="hw1_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+<span class="comment">% Output shows that the shifted exponential distribution is the one that</span>
+<span class="comment">% maximizes the likelihood function</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 
 % HW, Statistical Signal Processing,
@@ -290,14 +251,11 @@ if (choise)
     res=zeros(1000,4);
     res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology #1 in res
     res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University                      #2 in res
-    res(1:1000,3) = pingstats('mx.vvsu.ru',1000,''); % Vladivostok State University of Econimics and Service  #3 in res
-    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville                                         #didn't work
+    res(1:1000,3) = pingstats('mx.vvsu.ru',1000,'');% Vladivostok State University of Econimics and Service  #3 in res
+    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville, Congo                                         
 
-    %res(1:100,3) = pingstats('archlinux.uib.no',100,'');
-    % 217.74.123.50 % ISP = Vladivostok SU
-    % 197.214.128.4 Airtel Congo. % sykt treg
-    % 197.255.176.1 Brazzaville   
-    % 197.220.64.1 , Mogadishu    % relativ rask
+
+  
 else
     
     % Check if data file exists
@@ -313,8 +271,8 @@ else
 end
 
 
-data = res(1:1000,1);
-%% Problem iii) Calculating $$\Theta_{ML_{i}} \ \ $ for each of the distributions 
+data = res(1:1000,1); % Using the data from Norwegian Univ. of Science and Technology
+%% Problem iii) Calculating the parameters for each of the distributions 
 
 % Gaussian distribution
 
@@ -344,7 +302,7 @@ lambda_exp = length(data)/tmp;
 
 
 % Shifted Rayleigh
-% 
+ 
 
 
 %% Problem iv: Superimpose graphs of histograms and marginal denseties
@@ -428,82 +386,54 @@ plot(f_SR)
 xlim([0 max(data)+100])
 title 'Shifted Reyleigh distribution'
 
+
+
+
+
 %% Problem v) 
 %
 % Finding the distribution that maximizes the likelihood: 
+% Putting in the measured data in the pdf's
 
 
 
-figure;
+f_GI = (1./sqrt(2.*pi.*ro_G)) .* exp(-power( (data)-mu_G,2)./(2.*ro_G));
+f_RI = ((data)./ro_R).*exp (-(power((data),2))./(2.*ro_R ));
+f_E1I = (power(lambda_E(1),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(1).*(data));
+M = 2;
+f_E2I = (power(lambda_E(2),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(2).*(data));
+M = 3;
+f_E3I = (power(lambda_E(3),M+1)./(factorial(M))).*power((data),M).*exp(-lambda_E(3).*(data));
 
-sw = mean(data)-1:000.1:mean(data)+1;
-for k=1:length(sw)
-    L(k) = exp(-(sum(data-sw(k)).^2)./2);
-    k=k+1;
+
+f_expI = lambda_exp .* exp(-lambda_exp.*(data-alpha_exp));    
+alpha_SR = min(data)+0.01; % matlab does not like to divide by zero
+
+tmp1=0;
+tmp2=0;
+% Finding ro_SR
+for j=1:1000
+    tmp1 = tmp1 + data(j)-alpha_SR;
+    tmp2 = tmp2 + 1/(data(j)-alpha_SR);
 end
-plot(sw,L)
+ro_SR=tmp1/tmp2;
+data_SR = zeros(1,length(data));
+for i=1:length(data)
+    data_SR(i) = data(i)-alpha_SR;
+end
+
+f_SRI = ((data_SR)./ro_SR).*exp(-((data_SR).^2)./(2.*ro_SR));      
+f_SRI = f_SRI';
+dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI f_SRI];
+loglikelihoods(1:7) = sum(log(dists(:,1:7)));
+
+[lhat,idx] = max(loglikelihoods);
 
 
-% Gaussian distribution
-p_G = mle (data);
-% Rayleigh distribution
-% p_R = mle (data, 'pdf', f_R, 'start',0);
-% % Erlang distributions
-% p_E1 = mle(data,'pdf',f_E1, 'start', 0);
-% p_E2 = mle(data,'pdf',f_E2, 'start', 0);
-% p_E3 = mle(data,'pdf',f_E3, 'start', 0);
-% % Shifted exponential distribution
-% p_exp = mle(data,'pdf',f_exp,'start',min(data));
-% % Shifted Rayleigh distribution
-% p_SR = mle(data,'pdf', f_SR,'start',min(data)); 
-
-% Is the mean of a shifted dist the same as the unshifted mean + shift????
+% Output shows that the shifted exponential distribution is the one that
+% maximizes the likelihood function 
 
 
-
-
-
-
-
-
-% 
-% 
-% figure;
-% hist(res(:,2),500);
-% xlabel 'msec'
-% ylabel '#ping'
-% title 'atlante.standford.edu - Located in California';
-% figure;
-% hist(res(:,3),500);
-% xlabel 'msec'
-% ylabel '#ping'
-% title 'mx.vvsu.ru - Located in Vladivostok, Russia.';
-% close all
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%res = res';
 
 
 ##### SOURCE END #####
