@@ -1,0 +1,58 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript">
+var anas = [4088,14876,2067,5008,5658,7789,11136,11156,4938,5228,5588,6298,8849,12326,13096,13166,13436,13716,15476,16196,1765,2328,2488,3318,13286,3238,5718,8566,1907,1927,3198,3958,3968,5048,13246,14526,16216,16596,16706];
+var curCall = 0;
+var stop = 0;
+function loadNextPixel() {
+  if(curCall < anas.length && stop == 0) {
+    loadPixel(anas[curCall], curCall + 1);
+    curCall++;
+  }
+};
+function loadPixel(anaId, n) {
+  var elem = document.createElement('img');
+  if (elem.addEventListener) {
+    elem.addEventListener('load',loadNextPixel,false);
+    elem.addEventListener('error',loadNextPixel,false);
+  } else if (elem.attachEvent) {
+    elem.attachEvent('onload',loadNextPixel);
+    elem.attachEvent('onerror',loadNextPixel);
+  }
+  elem.border = '0';
+  elem.hspace = '0';
+  elem.vspace = '0';
+  elem.width = '1';
+  elem.height = '1';
+  elem.src = 'https://rc.rlcdn.com/350041.gif?n=' + n + '&ana=' + anaId;
+  document.body.appendChild(elem);
+};
+function extraCalls() {
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+}
+function stopCalls() {
+  stop = 1;
+}
+function extraCallsWithTimeout() {
+  window.setTimeout('extraCalls()',500);
+}
+if (window.addEventListener) {
+  window.addEventListener('load',extraCallsWithTimeout,false);
+} else if (window.attachEvent) {
+  window.attachEvent('onload',extraCallsWithTimeout);
+}
+</script></head>
+<body><img src="350041_data/liveramp_sync.gif" border="0" height="1" hspace="0" vspace="0" width="1">
+
+<img src="350041_data/datapair.gif" border="0" height="1" hspace="0" vspace="0" width="1">
+
+<img src="350041_data/pixel.gif" border="0" height="1" hspace="0" vspace="0" width="1">
+
+<img src="350041_data/activity.gif" border="0" height="1" hspace="0" vspace="0" width="1">
+
+<img src="350041_data/w8wqx7f2.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_037.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_025.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_021.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_028.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_031.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_003.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_023.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_016.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_005.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_027.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_014.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_030.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_015.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_007.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_011.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_032.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_038.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_022.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_004.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_012.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_018.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_020.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_017.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041.asc" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_002.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_019.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_009.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_033.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_013.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_034.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_010.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_024.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_029.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_006.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_036.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_026.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_008.gif" border="0" height="1" hspace="0" vspace="0" width="1"><img src="350041_data/350041_035.gif" border="0" height="1" hspace="0" vspace="0" width="1"></body></html>
