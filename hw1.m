@@ -1,10 +1,6 @@
 
 % HW, Statistical Signal Processing,
 % Written by Henning Schei 
-% Source code avalibe at https://github.com/schenning/SSP/blob/master/hw1.m
-
-
-
 
 %Collecting data from 3 different places
 choise = 0;
@@ -14,10 +10,7 @@ if (choise)
     res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology #1 in res
     res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University                      #2 in res
     res(1:1000,3) = pingstats('mx.vvsu.ru',1000,'');% Vladivostok State University of Econimics and Service  #3 in res
-    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville, Congo                                         
-
-
-  
+    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville, Congo                                           
 else
     
     % Check if data file exists
@@ -119,7 +112,6 @@ title 'mercury.iet.ntnu.no - Located in Trondheim, Norway';
 subplot(4,2,2)
 plot(f_G)
 xlim([0 max(data)+100])
-xlabel 'msec'
 ylabel 'Pr'
 title  'Gaussian distribution'
 subplot(4,2,3)
@@ -186,7 +178,8 @@ end
 
 f_SRI = ((data_SR)./ro_SR).*exp(-((data_SR).^2)./(2.*ro_SR));      
 f_SRI = f_SRI';
-dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI f_SRI];
+dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI, f_SRI];
+fists = {'Gaussian', 'Rayleigh', 'Erlang0','Erlang1','Erlang2', 'Expoinential', 'Shifted Rayleigh'};
 loglikelihoods(1:7) = sum(log(dists(:,1:7)));
 
 [lhat,idx] = max(loglikelihoods);
@@ -195,6 +188,47 @@ loglikelihoods(1:7) = sum(log(dists(:,1:7)));
 % Output shows that the shifted exponential distribution is the one that
 % maximizes the likelihood function, and by obersvation this is also the pdf
 % that visually fits best. 
+
+
+%% Bigger plots of the distributions
+
+figure;
+hist(res(:,1), 500);
+xlabel 'msec'
+ylabel '#ping'
+title 'mercury.iet.ntnu.no - Located in Trondheim, Norway';
+figure;
+plot(f_G)
+xlim([0 max(data)+100])
+ylabel 'Pr'
+title  'Gaussian distribution'
+figure;
+plot(f_E1);
+xlim([0 max(data)+100])
+xlabel 'm'
+title 'Erlang distribution m=1'
+figure;
+plot(f_E2)
+xlim([0 max(data)+100])
+title 'Erlang distribution m=2'
+figure;
+plot(f_E3)
+xlim([0 max(data)+100])
+title 'Erlang distribution m=3'
+figure;
+plot(f_exp)
+xlim([0 max(data)+100])
+title 'Shifted exponential distribution'
+figure;
+plot(f_R)
+xlim([0 max(data)+100])
+title 'Rayleigh distribution'
+figure;
+plot(f_SR)
+xlim([0 max(data)+100])
+title 'Shifted Reyleigh distribution'
+
+
 
 
 

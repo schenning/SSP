@@ -2,7 +2,7 @@ function [a,k,Jo]=levdur(r)
 
 	
     % Input: r(m)
-	p=20;
+	p=length(r)-1;
     a=zeros(p+1,1); % Prediction error filter
     k=zeros(p,1);
     Jo=zeros(p+1,1); 

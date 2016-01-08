@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>hw1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-15"><meta name="DC.source" content="hw1.m"><style type="text/css">
+      --><title>hw1</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-16"><meta name="DC.source" content="hw1.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Problem iii) Calculating the parameters for each of the distributions</a></li><li><a href="#3">Problem iv: Superimpose graphs of histograms and marginal denseties</a></li><li><a href="#4">Problem v)</a></li></ul></div><pre class="codeinput"><span class="comment">% HW, Statistical Signal Processing,</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Problem iii) Calculating the parameters for each of the distributions</a></li><li><a href="#3">Problem iv: Superimpose graphs of histograms and marginal denseties</a></li><li><a href="#4">Problem v)</a></li><li><a href="#5">Bigger plots of the distributions</a></li></ul></div><pre class="codeinput"><span class="comment">% HW, Statistical Signal Processing,</span>
 <span class="comment">% Written by Henning Schei</span>
 
 <span class="comment">%Collecting data from 3 different places</span>
@@ -78,13 +78,10 @@ close <span class="string">all</span>;
     res(1:1000,2) = pingstats(<span class="string">'atalante.stanford.edu'</span>, 1000,<span class="string">''</span>); <span class="comment">% Standford University                      #2 in res</span>
     res(1:1000,3) = pingstats(<span class="string">'mx.vvsu.ru'</span>,1000,<span class="string">''</span>);<span class="comment">% Vladivostok State University of Econimics and Service  #3 in res</span>
     res(1:1000,4) = pingstats(<span class="string">'197.255.176.1'</span>,1000,<span class="string">''</span>); <span class="comment">%Brazzaville, Congo</span>
-
-
-
 <span class="keyword">else</span>
 
     <span class="comment">% Check if data file exists</span>
-    <span class="keyword">if</span> exist(<span class="string">'pingmania.mat'</span>) == 2
+    <span class="keyword">if</span> exist(<span class="string">'pingmania.mat'</span>,<span class="string">'file'</span>) == 2
         <span class="comment">% unpack from .mat file pingmania.mat</span>
         tmp  = load(<span class="string">'pingmania.mat'</span>);
         res  = tmp.res(:,:); <span class="comment">% fix 4.colunm</span>
@@ -175,7 +172,6 @@ title <span class="string">'mercury.iet.ntnu.no - Located in Trondheim, Norway'<
 subplot(4,2,2)
 plot(f_G)
 xlim([0 max(data)+100])
-xlabel <span class="string">'msec'</span>
 ylabel <span class="string">'Pr'</span>
 title  <span class="string">'Gaussian distribution'</span>
 subplot(4,2,3)
@@ -230,15 +226,52 @@ data_SR = zeros(1,length(data));
 
 f_SRI = ((data_SR)./ro_SR).*exp(-((data_SR).^2)./(2.*ro_SR));
 f_SRI = f_SRI';
-dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI f_SRI];
+dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI, f_SRI];
+fists = {<span class="string">'Gaussian'</span>, <span class="string">'Rayleigh'</span>, <span class="string">'Erlang0'</span>,<span class="string">'Erlang1'</span>,<span class="string">'Erlang2'</span>, <span class="string">'Expoinential'</span>, <span class="string">'Shifted Rayleigh'</span>};
 loglikelihoods(1:7) = sum(log(dists(:,1:7)));
 
 [lhat,idx] = max(loglikelihoods);
 
 
 <span class="comment">% Output shows that the shifted exponential distribution is the one that</span>
-<span class="comment">% maximizes the likelihood function</span>
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+<span class="comment">% maximizes the likelihood function, and by obersvation this is also the pdf</span>
+<span class="comment">% that visually fits best.</span>
+</pre><h2>Bigger plots of the distributions<a name="5"></a></h2><pre class="codeinput">figure;
+hist(res(:,1), 500);
+xlabel <span class="string">'msec'</span>
+ylabel <span class="string">'#ping'</span>
+title <span class="string">'mercury.iet.ntnu.no - Located in Trondheim, Norway'</span>;
+figure;
+plot(f_G)
+xlim([0 max(data)+100])
+ylabel <span class="string">'Pr'</span>
+title  <span class="string">'Gaussian distribution'</span>
+figure;
+plot(f_E1);
+xlim([0 max(data)+100])
+xlabel <span class="string">'m'</span>
+title <span class="string">'Erlang distribution m=1'</span>
+figure;
+plot(f_E2)
+xlim([0 max(data)+100])
+title <span class="string">'Erlang distribution m=2'</span>
+figure;
+plot(f_E3)
+xlim([0 max(data)+100])
+title <span class="string">'Erlang distribution m=3'</span>
+figure;
+plot(f_exp)
+xlim([0 max(data)+100])
+title <span class="string">'Shifted exponential distribution'</span>
+figure;
+plot(f_R)
+xlim([0 max(data)+100])
+title <span class="string">'Rayleigh distribution'</span>
+figure;
+plot(f_SR)
+xlim([0 max(data)+100])
+title <span class="string">'Shifted Reyleigh distribution'</span>
+</pre><img vspace="5" hspace="5" src="hw1_02.png" alt=""> <img vspace="5" hspace="5" src="hw1_03.png" alt=""> <img vspace="5" hspace="5" src="hw1_04.png" alt=""> <img vspace="5" hspace="5" src="hw1_05.png" alt=""> <img vspace="5" hspace="5" src="hw1_06.png" alt=""> <img vspace="5" hspace="5" src="hw1_07.png" alt=""> <img vspace="5" hspace="5" src="hw1_08.png" alt=""> <img vspace="5" hspace="5" src="hw1_09.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 
 % HW, Statistical Signal Processing,
@@ -252,14 +285,11 @@ if (choise)
     res(1:1000,1) = pingstats('mercury.iet.ntnu.no' , 1000, ''); % Norwegian Univ. of Science and Technology #1 in res
     res(1:1000,2) = pingstats('atalante.stanford.edu', 1000,''); % Standford University                      #2 in res
     res(1:1000,3) = pingstats('mx.vvsu.ru',1000,'');% Vladivostok State University of Econimics and Service  #3 in res
-    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville, Congo                                         
-
-
-  
+    res(1:1000,4) = pingstats('197.255.176.1',1000,''); %Brazzaville, Congo                                           
 else
     
     % Check if data file exists
-    if exist('pingmania.mat') == 2
+    if exist('pingmania.mat','file') == 2
         % unpack from .mat file pingmania.mat
         tmp  = load('pingmania.mat');
         res  = tmp.res(:,:); % fix 4.colunm
@@ -357,7 +387,6 @@ title 'mercury.iet.ntnu.no - Located in Trondheim, Norway';
 subplot(4,2,2)
 plot(f_G)
 xlim([0 max(data)+100])
-xlabel 'msec'
 ylabel 'Pr'
 title  'Gaussian distribution'
 subplot(4,2,3)
@@ -424,14 +453,57 @@ end
 
 f_SRI = ((data_SR)./ro_SR).*exp(-((data_SR).^2)./(2.*ro_SR));      
 f_SRI = f_SRI';
-dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI f_SRI];
+dists = [f_GI, f_RI, f_E1I, f_E2I, f_E3I, f_expI, f_SRI];
+fists = {'Gaussian', 'Rayleigh', 'Erlang0','Erlang1','Erlang2', 'Expoinential', 'Shifted Rayleigh'};
 loglikelihoods(1:7) = sum(log(dists(:,1:7)));
 
 [lhat,idx] = max(loglikelihoods);
 
 
 % Output shows that the shifted exponential distribution is the one that
-% maximizes the likelihood function 
+% maximizes the likelihood function, and by obersvation this is also the pdf
+% that visually fits best. 
+
+
+%% Bigger plots of the distributions
+
+figure;
+hist(res(:,1), 500);
+xlabel 'msec'
+ylabel '#ping'
+title 'mercury.iet.ntnu.no - Located in Trondheim, Norway';
+figure;
+plot(f_G)
+xlim([0 max(data)+100])
+ylabel 'Pr'
+title  'Gaussian distribution'
+figure;
+plot(f_E1);
+xlim([0 max(data)+100])
+xlabel 'm'
+title 'Erlang distribution m=1'
+figure;
+plot(f_E2)
+xlim([0 max(data)+100])
+title 'Erlang distribution m=2'
+figure;
+plot(f_E3)
+xlim([0 max(data)+100])
+title 'Erlang distribution m=3'
+figure;
+plot(f_exp)
+xlim([0 max(data)+100])
+title 'Shifted exponential distribution'
+figure;
+plot(f_R)
+xlim([0 max(data)+100])
+title 'Rayleigh distribution'
+figure;
+plot(f_SR)
+xlim([0 max(data)+100])
+title 'Shifted Reyleigh distribution'
+
+
 
 
 
