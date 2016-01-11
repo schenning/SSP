@@ -1,16 +1,21 @@
-%TD1 SSP 
-close all;
-% Zero padding
-% For any unibased estimator, you can't go below the CRLB
-
-
-Ts = 1; 
-
+%% TP1, Statistical Signal Processing
+% Henning Schei
 
 %% Part I: Spectrum Estimation
 % a) 
-
-
+% To obtain a separation, be must have the bandwith $$ B_w $$
+%
+% $$ B_w  \leq M \\ \\ $$ to 
+% the sinusodial frequency separation. 
+% $$ B_w = \frac{f_s}{M} \\ $$, 
+%
+% when $f_s = 1$, 
+% 
+% $$ M \geq \frac{1}{abs(f_1 - f_2)} $$  
+% 
+% which gives M = 40
+close all
+Ts = 1; 
 [y,sigpar] = sig(1024); 
 [pxx,w] = periodogram(y);
 plot(w,10*log10(pxx));
@@ -19,43 +24,70 @@ plot(w,10*log10(pxx));
 
 N = 256;
 y_b = sig(N);
-
 N_mark = [64, 128, 256, 512, 1024];
 w = window('boxcar',N);
-
-
-%subplot(3,2,1)
 for j=1:length(N_mark)
     subplot(3,2,j)
-    periodo(y_b,N_mark(j));
-    title '' 
+    periodo(y_b,N_mark(j)); 
 end
 
-% Zero padding gives higher resolution the periograms. 
+% Zero padding gives higher resolution the periograms. As the plots show, 
+% it appears in this case to be enough with N' = 512
+
 
 %c) 
 
 % Estimation of correlation sequence of the signal 
- 
-
 ryy = conv(y,y(end:-1:1));
 ryy = ryy(length(y):end);
-figure;
 
-plot(ryy)
+
+% d)  
+[a,e,K]= levinson2(ryy);
+%Peridogram(N=1024) and autoregressive spectrum
+
+%periodo(y,1024);
+%hold on
+%plot(levinson2(ryy(1:20)),'r');
+%hold off
+
+
+init = [a;zeros(235,1)];
+spc  = fft(init);
+spc  = 1./spc;
+spc  = spc.*conj(spc);
+autorg(1:21)= e(1:21).* spc(1:21);
+sigma=a;
+f = 0:1/40:0.5;
+g = autorg/sqrt(21);
+g = 10*log10(g.^2);
+x = 0:1:20;
+subplot(1, 2, 1);
+plot(x, sigma(1:21)');
+xlabel('k');
+ylabel('sigma');
+title('Evolution of sigma');
+
+subplot(1, 2, 2);
+plot(K);
+xlabel('k');
+ylabel('PARCORS');
+title('evolution of PARCORS');
+
+
+
+
+
+
 
 %% Part II: Parameter Estimation
-%% Problem e)
+% Problem e)
 %-------------------------------------------------------------
-%clear all;
 
 
-
-close all;
 
 n=32; % number of samples 
 f1 = 1/8; phi = 0; A1 = sqrt(2); sigma = 1;
-
 yk = zeros(n,10);
 vk = sigma*randn(n,10); % gen noise 
 for i = 1:10
@@ -64,14 +96,8 @@ for i = 1:10
 	end
 end
 yk = yk + vk; % add noise
-
-  
-% let m be 2 x n;
-%m  = 10*n;
 m=n;
 df = 1/m;
-% Zero padding 
-%yk = [yk; zeros(m,10)];
 
 % Taking the DFT
 Yl = zeros(m,10);
@@ -92,7 +118,7 @@ sigma_chapau = zeros(1,10);
 
 for j=1:10
 	%Maximum Likelihood estimates
-	[l_chapau,l_idx ]  = henning(Yl(:,j));
+	[l_chapau,l_idx ]     = findArgMax(Yl(:,j));
 	f1_chapau(j)          = l_idx/m;
 	A1_chapau(j)          = (2/n)* abs(Yl(l_idx,j));
 	phi_chapau(j)         = angle(Yl(l_idx,j));
@@ -104,11 +130,7 @@ for j=1:10
 	sigma_chapau(j) = (1/n)*tmp;
 
 
-	%fprintf('Estimation of parameters: \n\n');
-	%fprintf('f1_chapau:     %f\n', f1_chapau(j));
-	%fprintf('A1_chapau:     %f\n', A1_chapau(j)); 
-	%fprintf('phi_chapau:    %f\n', phi_chapau(j));
-	%fprintf('sigma_chapau:  %f\n', sigma_chapau(j));
+
 
 end
 
@@ -124,21 +146,17 @@ fprintf('A1_chapau:    mean:  %f,  variance:   %f  CRLB: %f\n', mean(A1_chapau),
 fprintf('phi_chapau:   mean:  %f,  varinace:   %f  CRLB: %f\n', mean(phi_chapau),var(phi_chapau), CRB_phi);
 fprintf('sigma_chapau: mean:  %f,  variance:   %f  CRLB: %f\n', mean(sigma_chapau), var(sigma_chapau), CRB_sigma);
 fprintf('\n');   
-	
- 
+
+% The results show that f1_chapau and phi_chapau go below the CRLB 
+% and can be considered to be biased, A1_chapau and sigma_chapau is close
+% to the CRLB, but results are varying .
 
 % Problem f)
 %--------------------------------------------------------------------
-
 % Estimating r0,r1,r2
 % 
-
-
-
-
 n=32; % number of samples 
 f1 = 1/8; phi = 0; A1 = sqrt(2); sigma = 1;
-
 yk = zeros(n,10);
 vk = sigma*randn(n,10); % gen noise 
 for i = 1:10
@@ -178,10 +196,13 @@ for j=1:10
 end
 
 
-	fprintf('Estimation of parameters: \n\n');
-	fprintf('f1_chapau:    mean:  %f,  variance:   %f   CRLB: %f\n', mean(f1), var(f1), CRB_f1);
-	fprintf('A1_chapau:    mean:  %f,  variance:   %f   CRLB: %f\n', mean(A1), var(A1), CRB_A1); 
-	fprintf('sigma_chapau: mean:  %f,  variance:   %f   CRLB: %f\n', mean(sigma), var(sigma),CRB_sigma);
+fprintf('Estimation of parameters: Covariance Matching \n\n');
+fprintf('f1_chapau:    mean:  %f,  variance:   %f   CRLB: %f\n', mean(f1), var(f1), CRB_f1);
+fprintf('A1_chapau:    mean:  %f,  variance:   %f   CRLB: %f\n', mean(A1), var(A1), CRB_A1); 
+fprintf('sigma_chapau: mean:  %f,  variance:   %f   CRLB: %f\n', mean(sigma), var(sigma),CRB_sigma);
+
+% The estimates to appear the have the same charasteristics, only with
+% a slightly higher variance. Here does the f_
 
 
 
